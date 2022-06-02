@@ -1,8 +1,12 @@
+/**
+ * A Class for creating an Indicator Line
+ */
 public class IndicatorLine {
 
     private Date timestamp;
     private boolean isLong;
     private String originalLine;
+    private float lineLevel;
 
     IndicatorLine(String line){
         if (line.split("y")[1].equals("Green")){
@@ -56,6 +60,22 @@ public class IndicatorLine {
 
     public void setLong(boolean aLong) {
         isLong = aLong;
+    }
+
+    public String getOriginalLine() {
+        return originalLine;
+    }
+
+    public void setOriginalLine(String originalLine) {
+        this.originalLine = originalLine;
+    }
+
+    public float getLineLevel() {
+        return lineLevel;
+    }
+
+    public void setLineLevel(float lineLevel) {
+        this.lineLevel = lineLevel;
     }
 
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><

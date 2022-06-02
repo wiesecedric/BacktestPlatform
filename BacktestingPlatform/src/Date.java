@@ -68,19 +68,91 @@ public class Date {
             daysOfCurrentMonth = 31;
         }
 
-        this.day = (overflow = (this.day + addedDate.day + overflow)) % (daysOfCurrentMonth + 1);
+        this.day = (overflow = (this.day + addedDate.day + overflow)) % (++daysOfCurrentMonth);
         overflow = Math.floorDiv(overflow,daysOfCurrentMonth);
         if (overflow != 0){
             this.day++;
         }
-
         this.month = (overflow = (this.month + addedDate.month + overflow)) % 13;
-        overflow = Math.floorDiv(overflow,12);
+        overflow = Math.floorDiv(overflow,13);
         if (overflow != 0){
             this.month++;
         }
 
         this.year = this.year + addedDate.year + overflow;
+
+    }
+
+    /**
+     * A function used to subtract a date from another
+     * @param subtractor
+     */
+    public void subtractDate(Date subtractor){
+
+        int overflow = 0;
+
+        if (this.millisecond < subtractor.millisecond){
+            overflow = 1;
+            this.millisecond = 1000 + (this.millisecond - subtractor.millisecond);
+        }else{
+            this.millisecond = this.millisecond - subtractor.millisecond;
+        }
+
+        if ((this.second - overflow) < subtractor.second){
+            overflow = 1;
+            this.second = 60 + (this.second - subtractor.second);
+        }else{
+            this.second = this.second - subtractor.second - overflow;
+            overflow = 0;
+        }
+
+        if ((this.minute - overflow) < subtractor.minute){
+            overflow = 1;
+            this.minute = 60 + (this.minute - subtractor.minute);
+        }else{
+            this.minute = this.minute - subtractor.minute - overflow;
+            overflow = 0;
+        }
+
+        if ((this.hour - overflow) < subtractor.hour){
+            overflow = 1;
+            this.hour = 24 + (this.hour - subtractor.hour);
+        }else{
+            this.hour = this.hour - subtractor.hour - overflow;
+            overflow = 0;
+        }
+
+        if ((this.day - overflow - 1) < subtractor.day){
+            int daysOfPreviousMonth;
+            if ((this.month - 1) == 1 || (this.month - 1) == 3 || (this.month - 1) == 5 || (this.month - 1) == 7 || (this.month - 1) == 8 || (this.month - 1) == 10 || (this.month - 1) == 12){
+                daysOfPreviousMonth = 31;
+            }else{
+                if((this.month - 1) == 2){
+                    if (this.year % 4 == 0){
+                        daysOfPreviousMonth = 29;
+                    }else{
+                        daysOfPreviousMonth = 28;
+                    }
+                }else{
+                    daysOfPreviousMonth = 30;
+                }
+            }
+            overflow = 1;
+            this.day = daysOfPreviousMonth + (this.day - subtractor.day);
+        }else{
+            this.day = this.day - subtractor.day - overflow;
+            overflow = 0;
+        }
+
+        if ((this.month - overflow - 1) < subtractor.month){
+            overflow = 1;
+            this.month = 12 + (this.month - subtractor.month - 1);
+        }else{
+            this.month = this.month - subtractor.month - overflow;
+            overflow = 0;
+        }
+
+        this.year = this.year - subtractor.year - overflow;
 
     }
 
